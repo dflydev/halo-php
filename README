@@ -1,0 +1,9 @@
+Halo Web Application Framework for PHP
+http://halo-php.org/
+
+
+Halo is a web application framework for PHP. Halo is built on top of
+Substrate, an Inversion of Control/Dependency Injection Container
+(IoC/DI) for PHP.
+
+Halo was inspired by aspects of Spring MVC.
