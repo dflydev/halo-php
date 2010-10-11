@@ -204,10 +204,7 @@ class halo_Dispatcher implements substrate_stones_IContextStartupAware {
         } else {
             $view = $modelAndView->getView();
         }
-        if ( $view === null ) {
-            // What to do here? Technically this is not really an error... but how would
-            // we raise this to the user without being obnoxious?
-        } else {
+        if ($view and is_object($view) and method_exists($view, 'render') ) {
             $viewContent = $view->render($modelAndView->getModel(), $httpRequest, $httpResponse);
             print $viewContent;
         }
@@ -224,7 +221,7 @@ class halo_Dispatcher implements substrate_stones_IContextStartupAware {
             $view = $viewResolver->resolve($viewName, $httpRequest, $httpResponse);
             if ( $view !== null ) return $view;
         }
-        return $view;
+        return $viewName;
     }
     
     /**
