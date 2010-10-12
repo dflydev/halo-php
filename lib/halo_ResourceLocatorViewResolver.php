@@ -2,6 +2,8 @@
 
 require_once('halo_AbstractViewResolver.php');
 
+require_once('halo_DispatcherUtil.php');
+
 require_once('substrate_IResourceLocator.php');
 require_once('substrate_IClassLoader.php');
 
@@ -13,11 +15,29 @@ class halo_ResourceLocatorViewResolver extends halo_AbstractViewResolver {
      */
     protected $resourceLocator;
     
+    /**
+     * Name of the view class
+     * @var string
+     */
     protected $viewClass;
     
+    /**
+     * Prefix for the view name
+     * @var string
+     */
     protected $preffix = '';
     
+    /**
+     * Suffix for the view name
+     * @var unknown_type
+     */
     protected $suffix = '';
+    
+    /**
+     * Maps view class to dependency stones.
+     * @var array
+     */
+    protected $dependencyMap = array();
     
     /**
      * Constructor
@@ -44,8 +64,16 @@ class halo_ResourceLocatorViewResolver extends halo_AbstractViewResolver {
         $completeViewUri = $this->preffix.$viewName.$this->suffix;
         $viewUri = $this->resourceLocator->find($completeViewUri);
         if ( ! $viewUri ) { return null; }
-        $this->classLoader->load($this->viewClass);
+        if ( ! $this->classLoader->load($this->viewClass) ) {
+            throw new Exception('Could not load view class named "' . $this->viewClass . '"');
+        }
         $viewClass = $this->viewClass;
+        if ( isset($this->dependencyMap[$viewClass]) ) {
+            $context = halo_DispatcherUtil::GET_CONTEXT($httpRequest);
+            foreach ( $this->dependencyMap[$viewClass] as $ref ) {
+                $context->get($ref);
+            }
+        }
         return new $viewClass($viewName, $viewUri);
     }
 
@@ -71,6 +99,14 @@ class halo_ResourceLocatorViewResolver extends halo_AbstractViewResolver {
      */
     public function setSuffix($suffix) {
         $this->suffix = $suffix;
+    }
+    
+    /**
+     * Set the dependncy map
+     * @param $config
+     */
+    public function setDependencyMap($config) {
+        $this->dependencyMap = $config;
     }
             
 }
