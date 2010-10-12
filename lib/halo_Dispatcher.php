@@ -12,6 +12,8 @@ require_once('halo_HttpRequest.php');
 require_once('halo_HttpResponse.php');
 require_once('halo_ModelAndView.php');
 
+require_once('halo_IView.php');
+
 require_once('halo_HandlerExecutionChain.php');
 
 class halo_Dispatcher implements substrate_stones_IContextStartupAware {
@@ -204,7 +206,7 @@ class halo_Dispatcher implements substrate_stones_IContextStartupAware {
         } else {
             $view = $modelAndView->getView();
         }
-        if ($view and is_object($view) and method_exists($view, 'render') ) {
+        if ($view and is_object($view) and $view instanceof halo_IView ) {
             $viewContent = $view->render($modelAndView->getModel(), $httpRequest, $httpResponse);
             print $viewContent;
         }
