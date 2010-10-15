@@ -3,7 +3,7 @@
 require_once('skittle_IResourceLocator.php');
 require_once('substrate_IResourceLocator.php');
 
-class halo_skittle_SubstrateResourceLocatorAdapter implements skittle_IResourceLocator {
+class halo_view_skittle_SubstrateResourceLocatorAdapter implements skittle_IResourceLocator {
     
     /**
      * Substrate resource locator

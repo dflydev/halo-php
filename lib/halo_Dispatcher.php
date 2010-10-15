@@ -12,7 +12,7 @@ require_once('halo_HttpRequest.php');
 require_once('halo_HttpResponse.php');
 require_once('halo_ModelAndView.php');
 
-require_once('halo_IView.php');
+require_once('halo_view_IView.php');
 
 require_once('halo_HandlerExecutionChain.php');
 
@@ -50,7 +50,7 @@ class halo_Dispatcher implements substrate_stones_IContextStartupAware {
 
         // Find all view resolvers.
         $this->viewResolvers = $context->findStonesByImplementation(
-            'halo_IViewResolver'
+            'halo_view_IViewResolver'
         );
 
     }
@@ -206,7 +206,7 @@ class halo_Dispatcher implements substrate_stones_IContextStartupAware {
         } else {
             $view = $modelAndView->getView();
         }
-        if ($view and is_object($view) and $view instanceof halo_IView ) {
+        if ($view and is_object($view) and $view instanceof halo_view_IView ) {
             $viewContent = $view->render($modelAndView->getModel(), $httpRequest, $httpResponse);
             print $viewContent;
         }
@@ -223,7 +223,7 @@ class halo_Dispatcher implements substrate_stones_IContextStartupAware {
             $view = $viewResolver->resolve($viewName, $httpRequest, $httpResponse);
             if ( $view !== null ) return $view;
         }
-        return $viewName;
+        throw new Exception('Could not resolve view name "' . $viewName . '"');
     }
     
     /**
