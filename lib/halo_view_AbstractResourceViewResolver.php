@@ -4,11 +4,6 @@ require_once('halo_view_AbstractViewResolver.php');
 
 abstract class halo_view_AbstractResourceViewResolver extends halo_view_AbstractViewResolver {
 
-    /**
-     * View class name
-     * @var string
-     */
-    protected $viewClass;
 
     /**
      * Prefix on URI
@@ -41,14 +36,6 @@ abstract class halo_view_AbstractResourceViewResolver extends halo_view_Abstract
      * @param halo_HttpResponse $httpResponse
      */
     abstract public function doResolveViewUri($viewUri, $viewName, halo_HttpRequest $httpRequest, halo_HttpResponse $httpResponse);
-
-    /**
-     * Set view class name
-     * @param $viewClass
-     */
-    public function setViewClass($viewClass) {
-        $this->viewClass = $viewClass;
-    }
     
     /**
      * Set prefix

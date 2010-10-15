@@ -3,7 +3,13 @@
 require_once('halo_view_AbstractResourceViewResolver.php');
 
 class halo_view_InternalResourceViewResolver extends halo_view_AbstractResourceViewResolver {
-    
+
+    /**
+     * View class name
+     * @var string
+     */
+    protected $viewClass;
+        
     /**
      * Creates a new instance of viewClass instantiated with the viewUri
      * 
@@ -19,5 +25,13 @@ class halo_view_InternalResourceViewResolver extends halo_view_AbstractResourceV
         $this->classLoader->load($this->viewClass);
         return new $this->viewClass($viewUri);
     }
-    
+
+    /**
+     * Set view class name
+     * @param $viewClass
+     */
+    public function setViewClass($viewClass) {
+        $this->viewClass = $viewClass;
+    }
+
 }
