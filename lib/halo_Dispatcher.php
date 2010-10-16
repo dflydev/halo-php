@@ -14,7 +14,7 @@ require_once('halo_ModelAndView.php');
 
 require_once('halo_IView.php');
 
-require_once('halo_HandlerExecutionChain.php');
+require_once('halo_handler_HandlerExecutionChain.php');
 
 class halo_Dispatcher implements substrate_stones_IContextStartupAware {
     
@@ -167,7 +167,7 @@ class halo_Dispatcher implements substrate_stones_IContextStartupAware {
      * request (likely by way of examining the request URI).
      * 
      * @param halo_HttpRequest $httpRequest
-     * @return halo_HandlerExecutionChain
+     * @return halo_handler_HandlerExecutionChain
      */
     public function getHandlerExecutionChain(halo_HttpRequest $httpRequest) {
         foreach ( $this->handlerMappings as $handlerMapping ) {
@@ -234,7 +234,7 @@ class halo_Dispatcher implements substrate_stones_IContextStartupAware {
      * @param $httpResponse
      * @param $exception
      */
-    public function triggerAfterCompletion(halo_HandlerExecutionChain $handlerExecutionChain, $interceptorIdx, halo_HttpRequest $httpRequest, halo_HttpResponse $httpResponse, $exception = null) {
+    public function triggerAfterCompletion(halo_handler_HandlerExecutionChain $handlerExecutionChain, $interceptorIdx, halo_HttpRequest $httpRequest, halo_HttpResponse $httpResponse, $exception = null) {
         if ( $handlerExecutionChain !== null ) {
             $interceptors = $handlerExecutionChain->getInterceptors();
             for ( $i = $interceptorIdx; $i >= 0; $i-- ) {

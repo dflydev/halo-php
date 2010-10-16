@@ -1,12 +1,12 @@
 <?php
 
-require_once('halo_AbstractUriHandlerMapping.php');
+require_once('halo_handler_AbstractUriHandlerMapping.php');
 require_once('halo_HttpRequest.php');
 
 require_once('dd_logging_LogFactory.php');
 require_once('dd_logging_ILogger.php');
 
-class halo_SimpleUriHandlerMapping extends halo_AbstractUriHandlerMapping {
+class halo_handler_SimpleUriHandlerMapping extends halo_handler_AbstractUriHandlerMapping {
     
     /**
      * Logger
@@ -70,4 +70,4 @@ class halo_SimpleUriHandlerMapping extends halo_AbstractUriHandlerMapping {
     
 }
 
-halo_SimpleUriHandlerMapping::$LOGGER = dd_logging_LogFactory::get('halo_SimpleUriHandlerMapping');
+halo_handler_SimpleUriHandlerMapping::$LOGGER = dd_logging_LogFactory::get('halo_handler_SimpleUriHandlerMapping');

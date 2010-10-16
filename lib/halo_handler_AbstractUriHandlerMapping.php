@@ -1,6 +1,6 @@
 <?php
-require_once('halo_AbstractHandlerMapping.php');
-abstract class halo_AbstractUriHandlerMapping extends halo_AbstractHandlerMapping {
+require_once('halo_handler_AbstractHandlerMapping.php');
+abstract class halo_handler_AbstractUriHandlerMapping extends halo_handler_AbstractHandlerMapping {
 
     /**
      * Registered handlers
@@ -10,7 +10,7 @@ abstract class halo_AbstractUriHandlerMapping extends halo_AbstractHandlerMappin
 
     /**
      * (non-PHPdoc)
-     * @see halo_AbstractHandlerMapping::initContext()
+     * @see halo_handler_AbstractHandlerMapping::initContext()
      */
     protected function initContext() {
         parent::initContext();

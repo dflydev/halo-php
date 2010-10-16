@@ -5,7 +5,7 @@ require_once('halo_IController.php');
 require_once('dd_logging_LogFactory.php');
 require_once('dd_logging_ILogger.php');
 
-class halo_examples_SimpleEchoController implements halo_IController {
+class halo_handler_SimpleEchoController implements halo_IController {
     
     /**
      * Logger

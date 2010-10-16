@@ -1,6 +1,6 @@
 <?php
 
-class halo_HandlerExecutionChain {
+class halo_handler_HandlerExecutionChain {
     
     /**
      * Actual handler
@@ -22,7 +22,7 @@ class halo_HandlerExecutionChain {
     public function __construct($handler, $interceptors = null) {
         if ( $interceptors == null ) { $interceptors = array(); }
         if ( ! is_array($interceptors) ) { $interceptors = array($interceptors); }
-        if ( $handler instanceof halo_HandlerExecutionChain ) {
+        if ( $handler instanceof halo_handler_HandlerExecutionChain ) {
             $this->handler = $handler->getHandler();
             $this->interceptors = array_merge($handler->getInterceptors(), $interceptors);
         } else {

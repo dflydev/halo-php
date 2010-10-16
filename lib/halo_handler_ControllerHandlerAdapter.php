@@ -5,7 +5,7 @@ require_once('halo_IController.php');
 require_once('halo_HttpRequest.php');
 require_once('halo_HttpResponse.php');
 
-class halo_ControllerHandlerAdapter implements halo_IHandlerAdapter {
+class halo_handler_ControllerHandlerAdapter implements halo_IHandlerAdapter {
 
     /**
      * (non-PHPdoc)

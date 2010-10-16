@@ -5,5 +5,5 @@ $context->add('halo.dispatcher', array(
 ));
 
 $context->add('halo.controllerHandlerAdapter', array(
-    'className' => 'halo_ControllerHandlerAdapter',
+    'className' => 'halo_handler_ControllerHandlerAdapter',
 ));

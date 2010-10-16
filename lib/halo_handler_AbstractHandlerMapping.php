@@ -5,7 +5,7 @@ require_once('halo_IHandlerMapping.php');
 require_once('substrate_Context.php');
 require_once('substrate_stones_IContextAware.php');
 
-abstract class halo_AbstractHandlerMapping implements halo_IHandlerMapping, substrate_stones_IContextAware {
+abstract class halo_handler_AbstractHandlerMapping implements halo_IHandlerMapping, substrate_stones_IContextAware {
 
     /**
      * Substrate context
@@ -82,7 +82,7 @@ abstract class halo_AbstractHandlerMapping implements halo_IHandlerMapping, subs
     /**
      * Get the handler execution chain
      * @param mixed $handler
-     * @return halo_HandlerExecutionChain
+     * @return halo_handler_HandlerExecutionChain
      */
     public function getHandlerExecutionChain(halo_HttpRequest $httpRequest) {
         $handler = $this->getHandler($httpRequest);
@@ -96,14 +96,14 @@ abstract class halo_AbstractHandlerMapping implements halo_IHandlerMapping, subs
     /**
      * Get the handler execution chain (internal)
      * @param mixed $handler
-     * @return halo_HandlerExecutionChain
+     * @return halo_handler_HandlerExecutionChain
      */
     protected function getHandlerExecutionChainInternal($handler) {
-        if ( $handler instanceof halo_HandlerExecutionChain ) {
+        if ( $handler instanceof halo_handler_HandlerExecutionChain ) {
             $handler->addInterceptors($this->getAdaptedInterceptors());
             return $handler;
         } else {
-            return new halo_HandlerExecutionChain($handler, $this->getAdaptedInterceptors());
+            return new halo_handler_HandlerExecutionChain($handler, $this->getAdaptedInterceptors());
         }
     }
 
