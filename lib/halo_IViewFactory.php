@@ -3,7 +3,7 @@
 require_once('halo_HttpRequest.php');
 require_once('halo_HttpResponse.php');
 
-interface halo_view_IViewFactory {
+interface halo_IViewFactory {
     
     /**
      * Does this fatory support the specified view?

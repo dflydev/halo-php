@@ -1,14 +1,14 @@
 <?php
 
 require_once('halo_view_AbstractResourceViewResolver.php');
-require_once('halo_view_IViewFactory.php');
+require_once('halo_IViewFactory.php');
 require_once('substrate_IClassLoader.php');
 
 class halo_view_ViewFactoryResourceViewResolver extends halo_view_AbstractResourceViewResolver {
     
     /**
      * View factory
-     * @var halo_view_IViewFactory
+     * @var halo_IViewFactory
      */
     protected $viewFactory;
     
@@ -17,7 +17,7 @@ class halo_view_ViewFactoryResourceViewResolver extends halo_view_AbstractResour
      * @param $viewFactory
      * @param $classLoader
      */
-    public function __construct(halo_view_IViewFactory $viewFactory, substrate_IClassLoader $classLoader = null) {
+    public function __construct(halo_IViewFactory $viewFactory, substrate_IClassLoader $classLoader = null) {
         parent::__construct($classLoader);
         $this->viewFactory = $viewFactory;
     }
@@ -25,7 +25,7 @@ class halo_view_ViewFactoryResourceViewResolver extends halo_view_AbstractResour
     /**
      * Resolve the view (conditionally)
      * 
-     * Checks the underlying halo_view_IViewFactory by way of supports() to see
+     * Checks the underlying halo_IViewFactory by way of supports() to see
      * if the view built by the factory will support the view request. If it
      * does support it, the factory will build a view. If not, null is returned.
      * 

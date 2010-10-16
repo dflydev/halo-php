@@ -1,10 +1,10 @@
 <?php
 
-require_once('halo_view_IViewFactory.php');
+require_once('halo_IViewFactory.php');
 require_once('halo_view_skittle_SubstrateResourceLocatorAdapter.php');
 require_once('halo_view_skittle_SkittleResourceLocatorView.php');
 
-class halo_view_skittle_SkittleViewFactory implements halo_view_IViewFactory {
+class halo_view_skittle_SkittleViewFactory implements halo_IViewFactory {
 
     /**
      * Substrate resource locator adapter for Skittle
@@ -22,10 +22,12 @@ class halo_view_skittle_SkittleViewFactory implements halo_view_IViewFactory {
 
     /**
      * (non-PHPdoc)
-     * @see halo_view_IViewFactory::supports()
+     * @see halo_IViewFactory::supports()
      */
     public function supports($viewUri, $viewName, halo_HttpRequest $httpRequest, halo_HttpResponse $httpResponse) {
         if ( $this->substrateResourceLocatorAdapter->find($viewUri) ) {
+            // If our resource locator can find the view URI we know that
+            // the view we create will be able to support it.
             return true;
         }
         return false;
@@ -33,7 +35,7 @@ class halo_view_skittle_SkittleViewFactory implements halo_view_IViewFactory {
     
     /**
      * (non-PHPdoc)
-     * @see halo_view_IViewFactory::buildView()
+     * @see halo_IViewFactory::buildView()
      */
     public function buildView($viewUri, $viewName, halo_HttpRequest $httpRequest, halo_HttpResponse $httpResponse) {
         return new halo_view_skittle_SkittleResourceLocatorView($viewUri, $this->substrateResourceLocatorAdapter);

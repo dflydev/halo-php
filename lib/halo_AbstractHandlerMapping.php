@@ -4,9 +4,8 @@ require_once('halo_IHandlerMapping.php');
 
 require_once('substrate_Context.php');
 require_once('substrate_stones_IContextAware.php');
-require_once('substrate_stones_IOrderedStone.php');
 
-abstract class halo_AbstractHandlerMapping implements halo_IHandlerMapping, substrate_stones_IContextAware, substrate_stones_IOrderedStone {
+abstract class halo_AbstractHandlerMapping implements halo_IHandlerMapping, substrate_stones_IContextAware {
 
     /**
      * Substrate context
