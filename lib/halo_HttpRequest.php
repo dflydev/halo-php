@@ -132,6 +132,8 @@ class halo_HttpRequest {
     public function getRequestedUri() { return $this->deprecated()->requestedUri(); }
     public function getRequestedUrl() { return $this->deprecated()->requestedUri(); }
     
+    public function scriptPathRoot() { return $this->scriptPathRoot; }
+    
     public function queryParamExists($key) { return array_key_exists($key, $this->queryParams); }
     public function queryParam($key) { return isset($this->queryParams[$key]) ? $this->queryParams[$key] : null; }
     public function setQueryParam($key, $value = null) { $this->queryParams[$key] = $value; }
@@ -140,7 +142,7 @@ class halo_HttpRequest {
     public function getQueryParams() { return $this->deprecated()->queryParams(); }
 
     public function postParamExists($key) { return array_key_exists($key, $this->postParams); }
-    public function postParam($key) { return isset($this->postParam[$key]) ? $this->postParam[$key] : null; } 
+    public function postParam($key) { return isset($this->postParams[$key]) ? $this->postParams[$key] : null; } 
     public function setPostParam($key, $value = null) { $this->postParams[$key] = $value; }
     public function unsetPostParam($key) { unset($this->postParams[$key]); }
     public function postParams() { return $this->postParams; }
