@@ -16,6 +16,8 @@ require_once('halo_IView.php');
 
 require_once('halo_handler_HandlerExecutionChain.php');
 
+require_once('halo_HelperUtil.php');
+
 class halo_Dispatcher implements substrate_stones_IContextStartupAware {
     
     /**
@@ -207,6 +209,7 @@ class halo_Dispatcher implements substrate_stones_IContextStartupAware {
             $view = $modelAndView->getView();
         }
         if ($view and is_object($view) and $view instanceof halo_IView ) {
+            halo_HelperUtil::PREPARE_VIEW($view, $httpRequest, $httpResponse);
             $viewContent = $view->render($modelAndView->getModel(), $httpRequest, $httpResponse);
             print $viewContent;
         }

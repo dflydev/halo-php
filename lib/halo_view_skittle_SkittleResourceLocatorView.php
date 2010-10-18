@@ -1,12 +1,12 @@
 <?php
 
 require_once('skittle_Skittle.php');
+require_once('halo_view_skittle_AbstractSkittleView.php');
 
-require_once('halo_view_AbstractUriView.php');
 require_once('halo_HttpRequest.php');
 require_once('halo_HttpResponse.php');
 
-class halo_view_skittle_SkittleResourceLocatorView extends halo_view_AbstractUriView {
+class halo_view_skittle_SkittleResourceLocatorView extends halo_view_skittle_AbstractSkittleView {
     
     /**
      * Skittle resource locator
@@ -23,14 +23,15 @@ class halo_view_skittle_SkittleResourceLocatorView extends halo_view_AbstractUri
         parent::__construct($uri);
         $this->resourceLocator = $resourceLocator;
     }
-    
+
     /**
-     * (non-PHPdoc)
-     * @see halo_view_IView::render()
+     * Instantiate Skittle.
+     * @param $model
+     * @param $httpRequest
+     * @param $httpResponse
      */
-    public function render(array $model, halo_HttpRequest $httpRequest, halo_HttpResponse $httpResponse) {
-        $skittle = new skittle_Skittle($this->resourceLocator);
-        return $skittle->stringInc($this->uri, $model);
+    public function instantiate(array $model, halo_HttpRequest $httpRequest, halo_HttpResponse $httpResponse) {
+        return new skittle_Skittle($this->resourceLocator);
     }
     
 }

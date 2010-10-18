@@ -186,6 +186,7 @@ class halo_HttpRequest {
     public function envExists($key) { return array_key_exists($key, $this->env); }
     public function envKeys() { return array_keys($this->env); }
     public function env($key) { return isset($this->env[$key]) ? $this->env[$key] : null; }
+    public function envExport() { return $this->env; }
     
     public function body() { return $this->body; }
     
