@@ -69,8 +69,17 @@ class halo_Dispatcher implements substrate_stones_IContextStartupAware {
                 self::$LOGGER->fatal('SOMETHING MAJOR HAPPENED');
                 self::$LOGGER->fatal($error['message'] . ' in ' . $error['file'] . ' on line ' . $error['line']);
             }
+            $buffer = $this->triggerInternalServerError();
         }
         return $buffer;
+    }
+    
+    protected function triggerInternalServerError() {
+        header('HTTP/1.1 500 Internal Server Error');
+        $content = '';
+        $content .= '<strong>500 Internal Server Error</strong><br />';
+        $content .= 'An internal error has occurred.';
+        return $content;
     }
     
     /**
@@ -78,9 +87,7 @@ class halo_Dispatcher implements substrate_stones_IContextStartupAware {
      */
     protected function handleInternalServerError() {
         // TODO: Can we find a way to customize 500 error?
-        header('HTTP/1.1 500 Internal Server Error');
-        echo '<strong>500 Internal Server Error</strong><br />';
-        echo 'An internal error has occurred.';
+        echo $this->triggerInternalServerError();
     }
 
     /**
@@ -93,7 +100,7 @@ class halo_Dispatcher implements substrate_stones_IContextStartupAware {
         $didCatchException = false;
         $exception = null;
         
-        ob_start(array($this, 'doServiceErrorHandler'));;
+        ob_start(array($this, 'doServiceErrorHandler'));
         
         try {
             $this->doServiceInternal($httpRequest, $httpResponse);
