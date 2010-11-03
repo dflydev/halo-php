@@ -1,9 +1,11 @@
 <?php
 
 require_once('halo_IHandlerAdapter.php');
-require_once('halo_IController.php');
+require_once('halo_mvc_IController.php');
 require_once('halo_HttpRequest.php');
 require_once('halo_HttpResponse.php');
+
+require_once('halo_IController.php'); // TODO Legacy, should be removed
 
 class halo_handler_ControllerHandlerAdapter implements halo_IHandlerAdapter {
 
@@ -12,7 +14,7 @@ class halo_handler_ControllerHandlerAdapter implements halo_IHandlerAdapter {
      * @see halo_IHandlerAdapter::supports()
      */
     public function supports($object) {
-        return $object instanceof halo_IController;
+        return ( $object instanceof halo_mvc_IController || $object instanceof halo_IController );
     }
 
     /**
