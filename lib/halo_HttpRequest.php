@@ -98,8 +98,13 @@ class halo_HttpRequest {
         
         if ( $env === null ) $env = array();
         
-        foreach ( array('PATH_INFO', 'SCRIPT_PATH_INFO') as $envKey ) {
+        foreach ( array('SCRIPT_PATH_INFO') as $envKey ) {
             if ( ! isset($env[$envKey]) ) $env[$envKey] = null;
+        }
+
+        if ( ! isset($env['PATH_INFO']) ) {
+            // Temporary fix for fcgi, not sure how portable this actually is.
+            $env['PATH_INFO'] = substr($env['REDIRECT_URL'] ? $env['REDIRECT_URL'] : $env['REQUEST_URI'], strlen(dirname($env['SCRIPT_NAME'])));
         }
 
         $this->method = $method;

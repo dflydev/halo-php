@@ -60,7 +60,7 @@ class halo_helper_UriHelperFactory implements halo_IRequestHelperFactory {
         $uri = new halo_helper_UriHelper(
             $this->uriConfiguration,
             $httpRequest->scriptPathRoot(),
-            ( $httpRequest->scriptPathRoot() and $httpRequest->scriptPathRoot() != '/' ) ? true : false,
+            true,
             $httpRequest->envExport()
         );
         if ( $this->prefix ) $uri->setPrefix($this->prefix);
