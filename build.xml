@@ -1,0 +1,161 @@
+<?xml version="1.0"?>
+<project name="halo-php" default="default" basedir=".">
+
+    <property file="build.properties" />
+    
+    <property name="paths.build" value="${project.basedir}/build" />
+    <property name="paths.dist" value="${project.basedir}/dist" />
+    <property name="paths.repo" value="${project.basedir}/repos" />
+    
+    <property name="halo.repository.url" value="git://github.com/dflydev/halo-php.git" />
+    <property name="halo.repository.path" value="${paths.repo}/halo-php" />
+    
+    <fileset dir="${halo.repository.path}/lib" id="halo-libs">
+        <include name="*.php" />
+    </fileset>
+
+    <fileset dir="${halo.repository.path}" id="halo-misc">
+        <include name="README" />
+        <include name="LICENSE" />
+    </fileset>
+    
+    <tstamp>
+        <format property="DSTAMP" pattern="%Y%m%d" />
+        <format property="TSTAMP" pattern="%H%M%S" />
+    </tstamp>
+    
+    <target name="version">
+        <if>
+            <isset property="halo.tag" />
+            <then><property name="halo.version" value="${halo.tag}" /></then>
+            <else>
+                <if>
+                    <not><isset property="halo.snapshotVersion" /></not>
+                    <then>
+                        <property name="halo.snapshotVersion" value="snapshot-${DSTAMP}${TSTAMP}" />
+                    </then>
+                </if>
+                <if>
+                    <isset property="halo.branch" />
+                    <then><property name="halo.version" value="${halo.branch}-${halo.snapshotVersion}" /></then>
+                    <else><property name="halo.version" value="${halo.snapshotVersion}" /></else>
+                </if>
+            </else>
+        </if>
+    </target>
+    
+    <target name="setProperties" depends="version">
+        <property name="halo.pkgname.basic" value="halo-${halo.version}" />
+	    <property name="halo.build.basic.path" value="${paths.build}/${halo.pkgname.basic}" />
+	    <property name="halo.dist.basic.zipfile" value="${paths.dist}/${halo.pkgname.basic}.zip" />
+	    <property name="halo.dist.basic.tgzfile" value="${paths.dist}/${halo.pkgname.basic}.tar.gz" />
+    </target>
+    
+    <target name="prep">
+        <mkdir dir="${paths.build}" />
+        <mkdir dir="${paths.dist}" />
+    </target>
+    
+    <target name="cleanBuild">
+        <delete dir="${paths.build}" />
+    </target>
+    
+    <target name="cleanDist">
+        <delete dir="${paths.dist}" />
+    </target>
+    
+    <target name="cleanRepos">
+        <delete dir="${paths.repos}" />
+    </target>
+    
+    <target name="clean" depends="cleanBuild,cleanDist" />
+    <target name="realClean" depends="clean,cleanRepos" />
+    <target name="realclean" depends="realClean" />
+    
+    <target name="update" depends="prep">
+        <if>
+            <available file="${halo.repository.path}" />
+            <then>
+                <!-- Eventually we want to do a fetch / merge or a pull here -->
+                <!--
+                <delete dir="${halo.repository.path}" />
+                <mkdir dir="${halo.repository.path}" />
+                <gitclone repository="${halo.repository.url}" targetPath="${halo.repository.path}" />
+                -->
+                <gitpull repository="${halo.repository.path}" tags="true" />
+            </then>
+            <else>
+		        <mkdir dir="${halo.repository.path}" />
+		        <gitclone repository="${halo.repository.url}" targetPath="${halo.repository.path}" />
+            </else>
+        </if>
+        <if>
+            <isset property="halo.tag" />
+            <then>
+                <gitcheckout repository="${halo.repository.path}" branchname="v${halo.tag}" />
+            </then>
+            <else>
+                <if>
+                    <isset property="halo.branch" />
+                    <then>
+                        <!--<gitcheckout repository="${halo.repository.path}" create="true" branchname="${halo.branch}" startPoint="origin/${halo.branch}" />-->
+                        <gitcheckout repository="${halo.repository.path}" create="true" branchname="${halo.branch}" startPoint="origin/${halo.branch}" />
+                    </then>
+                    <else>
+                        <gitcheckout repository="${halo.repository.path}" branchname="master" />
+                    </else>
+                </if>
+            </else>
+        </if>
+    </target>
+
+    <target name="buildBasic">
+        <copy toDir="${halo.build.basic.path}" mode="0755">
+            <fileset refid="halo-libs"/>
+            <fileset refid="halo-misc"/>
+        </copy>
+        <chmod mode="0755">
+            <fileset dir="${halo.build.basic.path}">
+                <include name="*.php" />
+                <include name="README" />
+                <include name="LICENSE" />
+            </fileset>
+        </chmod>
+    </target>
+
+    <target name="build" depends="setProperties,update,cleanBuild,buildBasic" />
+    
+    <target name="distBasic" depends="build">
+
+        <mkdir dir="${paths.dist}" />
+
+        <delete file="${halo.dist.basic.tgzfile}" />
+        <tar compression="gzip" destFile="${halo.dist.basic.tgzfile}" basedir="${halo.build.basic.path}" prefix="${halo.pkgname.basic}" />
+
+        <delete file="${halo.dist.basic.zipfile}" />
+        <zip destFile="${halo.dist.basic.zipfile}" basedir="${halo.build.basic.path}" prefix="${halo.pkgname.basic}/" />
+        
+    </target>
+    
+    <target name="dist" depends="distBasic" />
+
+    <target name="default" depends="version">
+        <echo>Halo - ${halo.version}</echo>
+        <echo />
+        <echo>Targets:</echo>
+        <echo>    clean      - Cleans build and dist</echo>
+        <echo>    update     - Updates build files</echo>
+        <echo>    build      - Builds package</echo>
+        <echo>    dist       - Creates distribution archives</echo>
+        <echo />
+        <echo>    realclean  - Cleans everything</echo>
+        <echo />
+        <echo>Properties:</echo>
+        <echo>    halo.tag              - Halo tag to use</echo>
+        <echo>    halo.branch           - Halo branch to use</echo>
+        <echo>    halo.version          - Halo version to use</echo>
+        <echo>    halo.snapshotVersion  - Halo snapshot version to use (branches)</echo>
+        <echo>    halo.repository.url   - URL for Halo Git Repository</echo>
+    </target>
+    
+</project>
