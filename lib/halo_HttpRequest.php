@@ -130,11 +130,11 @@ class halo_HttpRequest {
         // TODO: Does this actually make sense?
         $_SERVER = $this->env;
         
-        //if( $this->requestedUri === $env['PATH_INFO'] or $this->requestedUri === '' ){
-        //    $this->requestedUri = '/';
-        //} else{
-        //    $this->requestedUri = '/' . $this->requestedUri;
-        //}
+        if ( $this->requestedUri === $env['PATH_INFO'] or $this->requestedUri === '' ) {
+            $this->requestedUri = '/';
+        } else{
+            $this->requestedUri = '/' . $this->requestedUri;
+        }
 
     }
     
