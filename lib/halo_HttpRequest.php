@@ -101,8 +101,9 @@ class halo_HttpRequest {
         foreach ( array('SCRIPT_PATH_INFO') as $envKey ) {
             if ( ! isset($env[$envKey]) ) $env[$envKey] = null;
         }
-
+        $missingPathInfo = false;
         if ( ! isset($env['PATH_INFO']) ) {
+            $missingPathInfo = true;
             // Temporary fix for fcgi, not sure how portable this actually is.
             $env['PATH_INFO'] = substr(isset($env['REDIRECT_URL']) ? $env['REDIRECT_URL'] : $env['REQUEST_URI'], strlen(dirname($env['SCRIPT_NAME'])));
         }
@@ -130,7 +131,7 @@ class halo_HttpRequest {
         // TODO: Does this actually make sense?
         $_SERVER = $this->env;
         
-        if ( $this->requestedUri === $env['PATH_INFO'] or $this->requestedUri === '' ) {
+        if ( $this->requestedUri === '' ) {
             $this->requestedUri = '/';
         } else{
             $this->requestedUri = '/' . $this->requestedUri;

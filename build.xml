@@ -76,13 +76,8 @@
         <if>
             <available file="${halo.repository.path}" />
             <then>
-                <!-- Eventually we want to do a fetch / merge or a pull here -->
-                <!--
-                <delete dir="${halo.repository.path}" />
-                <mkdir dir="${halo.repository.path}" />
-                <gitclone repository="${halo.repository.url}" targetPath="${halo.repository.path}" />
-                -->
-                <gitpull repository="${halo.repository.path}" tags="true" />
+                <echo>Fetching changes from upstream repository</echo>
+                <gitfetch repository="${halo.repository.path}" tags="true" />
             </then>
             <else>
 		        <mkdir dir="${halo.repository.path}" />
@@ -98,7 +93,6 @@
                 <if>
                     <isset property="halo.branch" />
                     <then>
-                        <!--<gitcheckout repository="${halo.repository.path}" create="true" branchname="${halo.branch}" startPoint="origin/${halo.branch}" />-->
                         <gitcheckout repository="${halo.repository.path}" create="true" branchname="${halo.branch}" startPoint="origin/${halo.branch}" />
                     </then>
                     <else>
