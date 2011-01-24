@@ -80,6 +80,12 @@ class halo_HttpRequest {
     protected $requestedUri;
     
     /**
+     * Cookies
+     * @var unknown_type
+     */
+    protected $cookies;
+    
+    /**
      * Body of request
      * @var mixed
      */
@@ -94,7 +100,7 @@ class halo_HttpRequest {
      * @param $env
      * @param $body
      */
-    public function __construct($method, array $queryParams = null, array $postParams = null, array $fileData = null, array $env = null, $body = null) {
+    public function __construct($method, array $queryParams = null, array $postParams = null, array $fileData = null, array $env = null, $cookies = null, $body = null) {
         
         if ( $env === null ) $env = array();
         
@@ -113,6 +119,7 @@ class halo_HttpRequest {
         $this->postParams = $postParams;
         $this->fileData = $fileData;
         $this->env = $env;
+        $this->cookies = $cookies;
         $this->body = $body;
         
         // Trim any leading slashes.
@@ -168,6 +175,12 @@ class halo_HttpRequest {
     public function attributeKeys() { return array_keys($this->attributes); }
     public function getAttributes() { return $this->deprecated()->attributes(); }
     public function getAttributeKeys() { return $this->deprecated()->attributeKeys(); }
+    
+    public function cookies() { return $this->cookies; }
+    public function cookieExists($key) { return array_key_exists($key, $this->cookies); }
+    public function cookie($key) { return isset($this->cookies[$key]) ? $this->cookies[$key] : null; }
+    public function setCookie($key, $value = null) { $this->cookies[$key] = $value; }
+    public function unsetCookie($key) { unset($this->cookies[$key]); }
 
     public function uriParamExists($key) { return array_key_exists($key, $this->uriParams); } 
     public function uriParam($key) { return isset($this->uriParams[$key]) ? $this->uriParams[$key] : null; }

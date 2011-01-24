@@ -19,7 +19,8 @@ class halo_DispatcherUtil {
             $_GET,
             $_POST,
             $_FILES,
-            $_SERVER
+            $_SERVER,
+            $_COOKIE
         );
     }
     

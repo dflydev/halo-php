@@ -86,4 +86,8 @@ class halo_HelperUtil {
         $httpRequest->setAttribute(self::$REGISTERED_HELPER_NAMES_KEY, $helperNames);
     }
     
+    public function HELPER(halo_HttpRequest $httpRequest, halo_HttpResponse $httpResponse, $name) {
+        self::REGISTER_HELPER_NAME($httpRequest, $name);
+        return self::MANAGER($httpRequest, $httpResponse)->helper($name);
+    }    
 }
